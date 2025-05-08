@@ -1,0 +1,277 @@
+/* Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+:root {
+    --c1:#a5babf;
+    --c2:#ebdbce;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+@media (min-width: 1500px) {
+    .container1{
+        display: flex;
+        display: none;
+    }
+    .container{
+        height: 94%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url('log1.jpg');
+        
+    }
+    .form{
+        margin-left: 14%;
+    }
+    .form.signup{
+        opacity: 0;
+        pointer-events: none;
+    }
+    .forms.show-signup .form.signup{
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .forms.show-signup .form.login{
+        opacity: 0;
+        pointer-events: none;
+    }
+    header{
+        font-size: 28px;
+        font-weight: 600;
+        color: #232836;
+        padding-right: 20%;
+    }
+    
+    .form .field{
+        margin-top: 20px;
+        border-radius: 6px;
+        width: 100%;
+        height: 50px;
+    }
+    
+    .eye-icon{
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #8b8b8b;
+        cursor: pointer;
+        padding: 5px;
+    }
+    
+    .form-link{
+        text-align: center;
+        margin-top: 10px;
+    }
+    .form-link span,
+    .form-link a{
+        font-size: 16px;
+        
+        color: #232836;
+    }
+    
+    .line{
+        position: relative;
+        height: 1px;
+        width: 100%;
+        margin: 36px 0;
+        background-color: #d4d4d4;
+    }
+    .line::before{
+        content: 'Or';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #FFF;
+        color: #8b8b8b;
+        padding: 0 15px;
+    }
+    
+    @media screen and (max-width: 400px) {
+        .form{
+            padding: 20px 10px;
+        }
+        
+    }
+    /*Buton*/
+    .btn-outline {
+        text-decoration: none;
+        color: #232836;
+        padding: 10px 10px;
+        border: 2px solid #232836;
+        position: relative;
+        transition: .5s;
+    
+    }
+    .btn-outline::before,
+    .btn-outline::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border: inherit;
+        transition: .5s;
+    }
+    .btn-outline::before {
+        top: -10px;
+        left: -10px;
+        border-width: 2px 0 0 2px;
+    }
+    .btn-outline::after {
+        bottom: -10px;
+        right: -10px;
+        border-width: 0 2px 2px 0;
+    }
+    
+    .btn-outline:hover::before,
+    .btn-outline:hover::after {
+        width: calc(100% + 18px);
+        height: calc(100% + 18px);
+    }
+    .nextBtn{
+        font-size:20px;
+        color: #232836;
+    }
+}
+@media (max-width: 1500px) {
+    .container{
+        display: none;
+    }
+    .container1{
+        height: 94%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image:url('log.jpg');
+        
+    }
+    .form{
+        background-color: #FFF;
+        border-radius: 50%;
+        width: 60%;
+        height: 60%;
+        opacity: 80%;
+    }
+    .form.signup{
+        opacity: 0;
+        pointer-events: none;
+    }
+    .forms.show-signup .form.signup{
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .forms.show-signup .form.login{
+        opacity: 0;
+        pointer-events: none;
+    }
+    header{
+        font-size: 28px;
+        font-weight: 600;
+        color: #232836;
+    }
+    
+    .form .field{
+        margin-top: 20px;
+        border-radius: 6px;
+        width: 60%;
+        height: 50px;
+        margin-left: 20%;
+    }
+    
+    .eye-icon{
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #8b8b8b;
+        cursor: pointer;
+        padding: 5px;
+    }
+    
+    .form-link{
+        text-align: center;
+        margin-top: 10px;
+    }
+    .form-link span,
+    .form-link a{
+        font-size: 16px;
+        
+        color: #232836;
+    }
+    
+    .line{
+        position: relative;
+        height: 1px;
+        width: 100%;
+        margin: 36px 0;
+        background-color: #d4d4d4;
+    }
+    .line::before{
+        content: 'Or';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #FFF;
+        color: #8b8b8b;
+        padding: 0 15px;
+    }
+    
+    @media screen and (max-width: 400px) {
+        .form{
+            padding: 20px 10px;
+        }
+        
+    }
+    /*Buton*/
+    .btn-outline {
+        text-decoration: none;
+        color: #232836;
+        padding: 10px 10px;
+        border: 2px solid #232836;
+        position: relative;
+        transition: .5s;
+    
+    }
+    .btn-outline::before,
+    .btn-outline::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border: inherit;
+        transition: .5s;
+    }
+    .btn-outline::before {
+        top: -10px;
+        left: -10px;
+        border-width: 2px 0 0 2px;
+    }
+    .btn-outline::after {
+        bottom: -10px;
+        right: -10px;
+        border-width: 0 2px 2px 0;
+    }
+    
+    .btn-outline:hover::before,
+    .btn-outline:hover::after {
+        width: calc(100% + 18px);
+        height: calc(100% + 18px);
+    }
+    .nextBtn{
+        font-size:20px;
+        color: #232836;
+    }
+}
+

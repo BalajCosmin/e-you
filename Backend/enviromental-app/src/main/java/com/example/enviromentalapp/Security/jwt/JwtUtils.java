@@ -1,6 +1,6 @@
-package com.example.enviromentalapp.Security.jwt;
+package com.example.enviromentalapp.security.jwt;
 
-import com.example.enviromentalapp.Security.UserDetailsImpl;
+import com.example.enviromentalapp.security.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +28,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
+                .claim("role", userPrincipal.getAuthority())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
@@ -36,6 +37,16 @@ public class JwtUtils {
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
+
+    public Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return (String) claims.get("role");
+    }
+
 
     public boolean validateJwtToken(String authToken) throws SignatureException {
         try {

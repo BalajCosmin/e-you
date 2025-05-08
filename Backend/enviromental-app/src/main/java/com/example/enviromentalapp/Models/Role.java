@@ -1,6 +1,6 @@
-package com.example.enviromentalapp.Models;
+package com.example.enviromentalapp.models;
 
-import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.cloud.firestore.annotation.PropertyName;
 import lombok.*;
 import org.springframework.cloud.gcp.data.firestore.Document;
 
@@ -13,15 +13,8 @@ import org.springframework.cloud.gcp.data.firestore.Document;
 @Document(collectionName = "Roles")
 public class Role {
 
-    @DocumentId
+    @PropertyName("name")
     private String name;
 
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

@@ -1,107 +1,56 @@
-package com.example.enviromentalapp.Models;
+package com.example.enviromentalapp.models;
 
+import com.google.cloud.firestore.annotation.PropertyName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cloud.gcp.data.firestore.Document;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serial;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Document(collectionName = "Users")
+public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5926468583005150707L;
 
+    @PropertyName("document_id")
     private String document_id;
+
+    @PropertyName("birthday")
     private String birthday;
+
+    @PropertyName("email")
     private String email;
+
+    @PropertyName("first_name")
     private String first_name;
+
+    @PropertyName("last_name")
     private String last_name;
+
+    @PropertyName("gender")
     private String gender;
+
+    @PropertyName("password")
     private String password;
+
+    @PropertyName("photo_path")
     private String photo_path;
+
+    @PropertyName("username")
     private String username;
-    private List<Role> roles = new ArrayList<>();
 
-    public String getDocument_id() {
-        return document_id;
-    }
+    @PropertyName("role")
+    private String role;
 
-    public void setDocument_id(String document_id) {
-        this.document_id = document_id;
-    }
+    @PropertyName("score")
+    private Integer score;
 
-    public String getBirthday() {
-        return birthday;
-    }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhoto_path() {
-        return photo_path;
-    }
-
-    public void setPhoto_path(String photo_path) {
-        this.photo_path = photo_path;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 }

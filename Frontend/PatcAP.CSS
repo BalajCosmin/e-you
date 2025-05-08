@@ -1,0 +1,86 @@
+:root {
+    --c1:#a5babf;
+    --c2:#ebdbce;
+    --c3:#2e2e2e;
+}
+.w{
+    background-color: #a5babf;
+    width: 100%;
+}
+
+.general {
+  position: relative;
+  top: 5%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.general:active .two {
+  transform: rotate(-5deg) translateX(290px) scale(0.9);
+}
+.general:active .three {
+  transform: rotate(5deg) translateX(-290px) scale(0.9);
+}
+.general:active .for {
+    transform: rotate(-5deg) translateX(590px) scale(0.9);
+  }
+  .general:active .five {
+    transform: rotate(5deg) translateX(-590px) scale(0.9);
+  }
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 200px;
+  height: 300px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.one {
+  background: var(--c3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.two {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  transform: rotate(-10deg) translate(8px, 8px);
+}
+
+.three {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  transform: rotate(10deg) translate(-5px, 7px);
+}
+.for{
+  position: absolute;
+  right: 0;
+  z-index: 0;
+  transform: rotate(-10deg) translate(8px, 8px);
+}
+.five{
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  transform: rotate(10deg) translate(-5px, 7px);
+}
+
+.move {
+  transition: all .5s cubic-bezier(.5, .40, .10, 1);
+}
+.op{
+    background-color: aliceblue;
+    opacity: 80%;
+    border-radius: 5%;
+    padding-top:15%;
+    width: 90%;
+    margin-left: 5%;
+}

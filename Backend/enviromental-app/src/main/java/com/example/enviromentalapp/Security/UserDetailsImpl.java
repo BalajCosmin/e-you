@@ -1,17 +1,18 @@
-package com.example.enviromentalapp.Security;
+package com.example.enviromentalapp.security;
 
-import com.example.enviromentalapp.Models.User;
+import com.example.enviromentalapp.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String id;
@@ -21,26 +22,22 @@ public class UserDetailsImpl implements UserDetails {
     private final String email;
     @JsonIgnore
     private final String password;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private final String authority;
     private String firstName;
     private String lastName;
 
     public UserDetailsImpl(String id, String firstName, String lastName, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           String authorities) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.authorities = authorities;
+        this.authority = authorities;
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
-
         return new UserDetailsImpl(
                 user.getDocument_id(),
                 user.getFirst_name(),
@@ -48,7 +45,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                user.getRole());
     }
 
     @Override
@@ -58,7 +55,11 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return List.of(new SimpleGrantedAuthority(authority));
+    }
+
+    public String getAuthority() {
+        return authority;
     }
 
     public String getId() {
@@ -124,4 +125,5 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
     }
+
 }

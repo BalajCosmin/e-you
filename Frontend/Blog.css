@@ -1,0 +1,163 @@
+.root{
+    --c1:#a5babf;
+    --c2:hsl(27, 42%, 86%);
+}
+@media (min-width: 1300px) {
+  .rr{
+      display: flex;
+      display: none;
+  }
+.dd {
+    background-color:#a5babf;
+    padding-left: 3%;
+    padding-right: 3%;
+    margin-top: -1%;
+  }
+
+  .column {
+    float: left;
+    width: 99%;
+  }
+  
+  /* Add a card effect for articles */
+  .card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .flex-container {
+    display: flex;
+  }
+  
+  .flex-container > div {
+    width:100%;
+    font-size: 15px;
+  }
+  #more {display: none;}
+  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 1300px) {
+    .leftcolumn, .rightcolumn {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  .btn-outline {
+    text-decoration: none;
+    font-size: 1em;
+    color: rgb(118, 109, 244);
+    padding: 10px 10px;
+    border: 2px solid rgb(118, 109, 244);
+    position: relative;
+    transition: .5s;
+}
+.btn-outline::before,
+.btn-outline::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: inherit;
+    transition: .5s;
+}
+.btn-outline::before {
+    top: -10px;
+    left: -10px;
+    border-width: 2px 0 0 2px;
+}
+.btn-outline::after {
+    bottom: -10px;
+    right: -10px;
+    border-width: 0 2px 2px 0;
+}
+
+.btn-outline:hover::before,
+.btn-outline:hover::after {
+    width: calc(100% + 18px);
+    height: calc(100% + 18px);
+}
+}
+@media (max-width: 1300px) {
+  .dd {
+      display: none;
+  }
+  .rr {
+    background-color:#a5babf;
+    padding: 3%;
+  }
+
+  .column {
+    float: left;
+    width: 99%;
+  }
+  
+  /* Add a card effect for articles */
+  .card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .flex-container {
+    display: flex;
+  }
+  
+  .flex-container > div {
+    width:100%;
+    font-size: 15px;
+  }
+  #more {display: none;}
+  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  .btn-outline {
+    text-decoration: none;
+    font-size: 1em;
+    color: rgb(118, 109, 244);
+    padding: 10px 10px;
+    border: 2px solid rgb(118, 109, 244);
+    position: relative;
+    transition: .5s;
+}
+.btn-outline::before,
+.btn-outline::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: inherit;
+    transition: .5s;
+}
+.btn-outline::before {
+    top: -10px;
+    left: -10px;
+    border-width: 2px 0 0 2px;
+}
+.btn-outline::after {
+    bottom: -10px;
+    right: -10px;
+    border-width: 0 2px 2px 0;
+}
+
+.btn-outline:hover::before,
+.btn-outline:hover::after {
+    width: calc(100% + 18px);
+    height: calc(100% + 18px);
+}
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hackaton</title>
+    <link rel="stylesheet" href="Main.css" />
+    <link rel="stylesheet" type="text/css" href="Harta.css" />
+    <meta charset="UTF-8" />
+    <meta name="1" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata" />
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="Main.js" defer></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="Harta.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    
+    <!-- Map Action button--> <div class=" w3-sidebar w3-center" id="navbar"></div>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+    <div class=" w3-sidebar w3-center" id="navbar">
+        <a href="Harta.html" class="l w3-button">Map</a>
+        <a href="Blog.html" class="l w3-button ">Blog</a>
+        <a href="Campanii.html" class="l w3-button">Campaigns</a>
+        <a href="Main.html" class="w3-center w3-button">E-YOU</a>
+        <a href="LeaderBoard.html" class="icon w3-button">Ranking</a>
+        <a href="aboutUS.html" class="icon w3-button ">About us</a>     
+        <a href="Main.html" onclick='logout()'  class="icon w3-button ">Log out</a>
+</div>
+<div class="topnav" style="width:100%;">
+        <a class="active w3-center">E-YOU</a>
+        <!-- Navigation links (hidden by default) -->
+        <div id="myLinks" class="w3-center">
+            <br/>
+            <a href="Harta.html" class="l w3-button">Map</a>
+            <a href="Blog.html" class="l w3-button ">Blog</a>
+            <a href="Campanii.html" class="l w3-button">Campaigns</a>
+            <a href="Signup.html" class="l w3-button">SignUP</a>
+            <a href="LeaderBoard.html" class="l w3-button">General Ranking</a>
+            <a href="aboutUS.html" class="l w3-button ">About us</a>  
+            <a href="Login.html" class="l w3-button">Login</a>
+            <a href="Signup.html" class="l w3-button ">SignUP</a>
+        </div>
+        <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+</div>
+    <button id="addIncidentButton" style="position:sticky; top:90% ;left:50%  ; z-index: 4; width: 200px; height: 50px;
+    text-align: center;
+    cursor: pointer;"> Add a new Incident</button>
+    <!--Harta-->
+    <div id="map"></div>
+
+    <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5ONyPzCv_C4CmbHQoDAHxKbUkQFw8njE&callback=initMap&v=weekly"
+          defer
+        ></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <div class="floating-container">
+      <div class="floating-button"><img src="Logos/logo4.png" alt="Markers"></div>
+      <div class="element-container">
+   
+            <span class="float-element tooltip-left">
+            <i class="material-icons"  onclick="getclickname(this); return false;" id="pandemic" ><img src="Markers/pandemie2.jpg">
+            </i></a>
+             </span>
+          
+            <span class="float-element">
+            <i class="material-icons" ><button onclick="getclickname(this); return false;" id="garbage"><img src="Markers/gunoi3.jpg"> atribut MarkerType:1, 2, 3...</button> </i>
+            </span>
+          
+            <span class="float-element">
+            <i class="material-icons"><button onclick="getclickname(this); return false;" id="fire"><img src="Markers/incendiu2.png"></button></i>
+            </span>
+            
+            <span class="float-element">
+            <i class="material-icons"><button onclick="getclickname(this); return false;" id="animals"><img src="Markers/animal1.jpg"></button></i>
+            </span>
+    
+            <span class="float-element">
+            <i class="material-icons"><button onclick="getclickname(this); return false;" id="flood"><img src="Markers/inundatie.jpg"></button></i>
+            </span>
+            
+            <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="biological_hazard"><img src="Markers/pericolbiologic.png"></button></i>
+                </span>
+                
+            <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="fishing"><img src="Markers/pescuit.png"></button></i>
+                </span>
+                
+            <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="air_polution"><img src="Markers/poluareaer.jpg"></button></i>
+                </span>
+                
+            <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="deforesting"><img src="Markers/defrisare.jpg"></button></i>
+                </span>
+                
+            <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="radioactivity"><img src="Markers/radioactive.jpg"></button></i>
+                </span>
+            
+      </div>
+</div>
+</body>
+</html>
