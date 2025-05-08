@@ -1,0 +1,385 @@
+/* Google Map Container */
+#map {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        height: 88%;
+        width: 100%;
+      }
+      
+      /* Google Fonts - Poppins */
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+#addIncidentButton {
+    position: sticky;
+    top: 90%;
+    left: 50%;
+    z-index: 4;
+    width: 220px;
+    height: 54px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #88c531 !important;
+    color: #fff;
+    font-family: 'Inconsolata', monospace;
+    font-size: 18px;
+    border: none;
+    border-radius: 32px;
+    box-shadow: 0 4px 18px rgba(120,200,90,0.10);
+    transition: background 0.17s, box-shadow 0.17s, color 0.17s;
+    margin-top: 22px;
+}
+
+#addIncidentButton:hover {
+    background: #6cab24 !important;
+    color: #f5f9e9;
+    box-shadow: 0 6px 22px rgba(90,160,69,0.14);
+}
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      html, body {
+        background: #eaedf2;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      .container {
+        position: relative;
+        max-width: 900px;
+        width: 100%;
+        border-radius: 6px;
+        padding: 30px;
+        margin: 0 15px;
+        background-color: #fff;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      }
+      
+      .container header {
+        position: relative;
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+      }
+      
+      .container header::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        height: 3px;
+        width: 27px;
+        border-radius: 8px;
+        background-color: #4070f4;
+      }
+      
+      .container form {
+        position: relative;
+        margin-top: 16px;
+        min-height: 490px;
+        background-color: #fff;
+        overflow: hidden;
+      }
+      
+      .container form .form {
+        position: absolute;
+        background-color: #fff;
+        transition: 0.3s ease;
+      }
+      
+      .container form .form.second {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(100%);
+      }
+      
+      form.secActive .form.second {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0);
+      }
+      
+      form.secActive .form.first {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-100%);
+      }
+      
+      #content {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+      }
+      
+      .container form .title {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        margin: 6px 0;
+        color: #333;
+      }
+      
+      .container form .fields {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      
+      form .fields .input-field {
+        display: flex;
+        width: 70%;
+        flex-direction: column;
+        margin: 4px 0;
+      }
+      
+      .input-field label {
+        font-size: 12px;
+        margin-bottom: 15px;
+        font-weight: 500;
+        color: #2e2e2e;
+      }
+      
+      .input-field input, select {
+        outline: none;
+        font-size: 11px;
+        font-weight: 400;
+        color: #333;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+        padding: 0 15px;
+        height: 30px;
+        margin: 4px 0;
+      }
+      
+      .input-field input:focus,
+      .input-field select:focus {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+      }
+      
+      .input-field select,
+      .input-field input[type="date"] {
+        color: #707070;
+      }
+      
+      .input-field input[type="date"]:valid {
+        color: #333;
+      }
+      
+      .container form button, .backBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 45px;
+        max-width: 200px;
+        width: 100%;
+        border: none;
+        outline: none;
+        color: #fff;
+        border-radius: 5px;
+        margin: 25px 0;
+        background-color: #4070f4;
+        transition: all 0.3s linear;
+        cursor: pointer;
+      }
+      
+      .container form .btnText {
+        font-size: 14px;
+        font-weight: 400;
+      }
+      
+      form button:hover {
+        background-color: #265df2;
+      }
+      
+      form button i,
+      form .backBtn i {
+        margin: 0 6px;
+      }
+      
+      form .backBtn i {
+        transform: rotate(180deg);
+      }
+      
+      form .buttons {
+        display: flex;
+        align-items: center;
+      }
+      
+      form .buttons button, .backBtn {
+        margin-right: 14px;
+      }
+      
+      /* Floating Menu Animation */
+      @keyframes come-in {
+        0% {
+          transform: translatey(50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translatey(0px) scale(1);
+          opacity: 1;
+        }
+      }
+      
+
+      .floating-container {
+        position: fixed;
+        width: 100px;
+        height: 500px; 
+        bottom: 0;
+        right: 0;
+        margin: 0 25px 25px 0;
+        z-index: 1000;
+      }
+      
+      .floating-container:hover .element-container {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      .floating-container:hover .floating-button {
+        box-shadow: 0 10px 25px rgba(44, 179, 240, 0.6);
+        transform: translatey(5px);
+        transition: all 0.3s;
+      }
+      
+      .floating-container .element-container {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 100%;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s, opacity 0.3s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(1) {
+        animation: come-in 0.4s forwards 0.2s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(2) {
+        animation: come-in 0.4s forwards 0.3s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(3) {
+        animation: come-in 0.4s forwards 0.4s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(4) {
+        animation: come-in 0.4s forwards 0.5s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(5) {
+        animation: come-in 0.4s forwards 0.6s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(6) {
+        animation: come-in 0.4s forwards 0.7s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(7) {
+        animation: come-in 0.4s forwards 0.8s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(8) {
+        animation: come-in 0.4s forwards 0.9s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(9) {
+        animation: come-in 0.4s forwards 1.0s;
+      }
+      
+      .floating-container:hover .element-container .float-element:nth-child(10) {
+        animation: come-in 0.4s forwards 1.1s;
+      }
+      
+      .floating-container .floating-button {
+        position: absolute;
+        width: 65px;
+        height: 65px;
+        bottom: 15px;
+        right: 15px;
+        border-radius: 50%;
+        color: white;
+        text-align: center;
+        z-index: 100;
+        box-shadow: 0 10px 25px -5px rgba(44, 179, 240, 0.6);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      .floating-container .floating-button img {
+        border-radius: 50%;
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+      }
+      
+      .floating-container .float-element {
+        position: relative;
+        display: block;
+        width: 50px;
+        height: 50px;
+        margin: 15px auto;
+        color: white;
+        text-align: center;
+        z-index: 0;
+        opacity: 0;
+        transform: translateY(100px);
+      }
+      
+      .floating-container .float-element .material-icons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      
+      .element-container button,
+      .element-container img,
+      .element-container i {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        padding: 0;
+        border: none;
+        object-fit: cover;
+        background: white;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      
+      .element-container button:hover,
+      .element-container img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Map Controls */
+      .custom-map-control-button {
+        background-color: #fff;
+        border: 0;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+        margin: 10px;
+        padding: 0 0.5em;
+        font: 400 18px Roboto, Arial, sans-serif;
+        overflow: hidden;
+        height: 40px;
+        cursor: pointer;
+      }
+      
+      .custom-map-control-button:hover {
+        background: rgb(235, 235, 235);
+      }

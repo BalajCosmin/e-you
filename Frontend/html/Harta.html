@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-YOU</title>
+    <link rel="stylesheet" href="../css/Main.css" />
+    <link rel="stylesheet" type="text/css" href="../css/Harta.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        #addIncidentButton {
+            position: fixed;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            width: 250px;
+            height: 54px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #88c531 !important;
+            color: #fff;
+            font-family: 'Inconsolata', monospace;
+            font-size: 18px;
+            border: none;
+            border-radius: 32px;
+            box-shadow: 0 4px 18px rgba(120,200,90,0.10);
+            transition: background 0.17s, box-shadow 0.17s, color 0.17s;
+        }
+        #addIncidentButton:hover {
+            background: #6cab24 !important;
+            color: #f5f9e9;
+            box-shadow: 0 6px 22px rgba(90,160,69,0.14);
+        }
+
+        /* Image preview styling */
+        #imagePreview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 6px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #88c531;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Image gallery in info window */
+        .incident-image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .incident-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .incident-image:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="w3-sidebar w3-center" id="navbar">
+    <a href="Harta.html" class="l w3-button">Hartă</a>
+    <a href="Blog.html" class="l w3-button">Blog</a>
+    <a href="Campanii.html" class="l w3-button">Campanii</a>
+    <a href="Main.html" class="w3-center w3-button">E-YOU</a>
+    <a href="LeaderBoard.html" class="icon w3-button">Clasament</a>
+    <a href="aboutUS.html" class="icon w3-button">Despre noi</a>
+    <a href="Main.html" onclick='logout()' class="icon w3-button">Deconectare</a>
+</div>
+<div class="topnav" style="width:100%;">
+    <a class="active w3-center">E-YOU</a>
+    <div id="myLinks" class="w3-center">
+        <br/>
+        <a href="Harta.html" class="l w3-button">Hartă</a>
+        <a href="Blog.html" class="l w3-button">Blog</a>
+        <a href="Campanii.html" class="l w3-button">Campanii</a>
+        <a href="Signup.html" class="l w3-button">Înregistrare</a>
+        <a href="LeaderBoard.html" class="l w3-button">Clasament general</a>
+        <a href="aboutUS.html" class="l w3-button">Despre noi</a>
+        <a href="Login.html" class="l w3-button">Autentificare</a>
+        <a href="Signup.html" class="l w3-button">Înregistrare</a>
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+<button id="addIncidentButton">Adaugă un incident nou</button>
+<div id="map" style="width:100vw; height:85vh"></div>
+<div class="floating-container">
+    <div class="floating-button"><img src="../Logos/logo4.png" alt="Markere"></div>
+    <div class="element-container">
+            <span class="float-element tooltip-left">
+                <i class="material-icons" onclick="getclickname(this); return false;" id="pandemic"><img src="../Markers/pandemie2.jpg"></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="garbage"><img src="../Markers/gunoi3.jpg"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="fire"><img src="../Markers/incendiu2.png"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="animals"><img src="../Markers/animal1.jpg"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="flood"><img src="../Markers/inundatie.jpg"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="biological_hazard"><img src="../Markers/pericolbiologic.png"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="fishing"><img src="../Markers/pescuit.png"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="air_polution"><img src="../Markers/poluareaer.jpg"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="deforesting"><img src="../Markers/defrisare.jpg"></button></i>
+            </span>
+        <span class="float-element">
+                <i class="material-icons"><button onclick="getclickname(this); return false;" id="radioactivity"><img src="../Markers/radioactive.jpg"></button></i>
+            </span>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script src="../javascript/Harta.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeAul7rme1hKo-C2xiGhPCjPyNnzwB4h4&callback=initMap&v=weekly" defer></script>
+</body>
+</html>

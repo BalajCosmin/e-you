@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <title>Înregistrare</title>
+    <link rel="stylesheet" href="../css/Main.css" />
+    <link rel="stylesheet" href="../css/Signup.css">
+    <meta charset="UTF-8" />
+    <meta name="1" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../javascript/Main.js" defer></script>
+    <script type="text/javascript" charset="utf-8" src="../javascript/Signup.js" defer></script>
+</head>
+
+<body>
+<div class="w3-sidebar w3-center" id="navbar">
+    <a href="Harta.html" class="l w3-button">Hartă</a>
+    <a href="Blog.html" class="l w3-button">Blog</a>
+    <a href="Campanii.html" class="l w3-button">Campanii</a>
+    <a href="Main.html" class="w3-center w3-button">E-YOU</a>
+    <a href="LeaderBoard.html" class="icon w3-button">Clasament</a>
+    <a href="aboutUS.html" class="icon w3-button">Despre noi</a>
+</div>
+<div class="topnav" style="width:100%;">
+    <a class="active w3-center">E-YOU</a>
+    <!-- Linkuri de navigare (ascunse implicit) -->
+    <div id="myLinks" class="w3-center">
+        <br />
+        <a href="Harta.html" class="l w3-button">Hartă</a>
+        <a href="Blog.html" class="l w3-button">Blog</a>
+        <a href="Campanii.html" class="l w3-button">Campanii</a>
+        <a href="Signup.html" class="l w3-button">Înregistrare</a>
+        <a href="LeaderBoard.html" class="l w3-button">Clasament general</a>
+        <a href="aboutUS.html" class="l w3-button">Despre noi</a>
+        <a href="Login.html" class="l w3-button">Autentificare</a>
+        <a href="Signup.html" class="l w3-button">Înregistrare</a>
+    </div>
+    <!-- "Hamburger menu" pentru navigare mobilă -->
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+<div class="C">
+    <div class="container">
+        <header>Înregistrare</header>
+        <form id="form">
+            <div class="form first">
+                <div class="details personal">
+                    <span class="title">Detalii personale</span>
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Utilizator</label>
+                            <input type="text" name="username" placeholder="Introduceți numele de utilizator" required>
+                        </div>
+                        <div class="input-field">
+                            <label>Prenume</label>
+                            <input type="text" name="first_name" placeholder="Introduceți prenumele" required>
+                        </div>
+                        <div class="input-field">
+                            <label>Nume</label>
+                            <input type="text" name="last_name" placeholder="Introduceți numele de familie" required>
+                        </div>
+                        <div class="input-field">
+                            <label>Data nașterii</label>
+                            <input type="date" name="birthday" placeholder="Introduceți data nașterii" required>
+                        </div>
+                        <div class="input-field">
+                            <label>Email</label>
+                            <input type="text" id='email' name="email" placeholder="Introduceți adresa de email" required>
+                            <span id="message3" style="color:red"></span>
+                        </div>
+                        <!-- <div class="input-field">
+                        <label>Număr de telefon</label>
+                        <input type="number" placeholder="Introduceți numărul de telefon" required>
+                        </div> -->
+                        <div class="input-field">
+                            <label>Gen</label>
+                            <select name="gender" required>
+                                <option disabled selected>Selectează genul</option>
+                                <option value="male">Masculin</option>
+                                <option value="female">Feminin</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label>Parolă</label>
+                            <input type="password" id="password" name="password" placeholder="Introduceți o parolă" required>
+                            <span id="message1" style="color:red"></span>
+                            <br><br>
+                        </div>
+                        <div class="input-field">
+                            <label>Confirmă parola</label>
+                            <input type="password" id="password_confirmation" placeholder="Reintroduceți parola" required>
+                            <span id="message2" style="color:red"></span>
+                            <br><br>
+                        </div>
+                        <button class="nextBtn" type="submit">
+                            <span class="btnText">Înregistrează-te</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer>
+    <div class="d w3-center">
+        <a href="aboutUS.html" class="iconfooter" title="WhatsApp" itemprop="url"><i class="fa fa-whatsapp"></i></a>
+        <a href="aboutUS.html" class="iconfooter" title="Twitter" itemprop="url"><i class="fa fa-twitter"></i></a>
+        <a href="aboutUS.html" class="iconfooter" title="Instagram" itemprop="url"><i class="fa fa-instagram"></i></a>
+        <a href="aboutUS.html" class="iconfooter" title="Facebook" itemprop="url"><i class="fa fa-facebook-f"></i></a>
+        <br />
+    </div>
+</footer>
+</body>
+</html>

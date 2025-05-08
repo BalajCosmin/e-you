@@ -1,0 +1,242 @@
+/* Base styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #f0f8ff; /* Light blue background instead of pattern */
+  font-family: 'Inconsolata', sans-serif;
+}
+
+/* Layout containers */
+.container-1080p {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Navigation */
+.w3-sidebar, .topnav {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  left: 0;
+  right: 0;
+  background-color: #a8bcbf;
+}
+
+/* Main content */
+.principal {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* Banner styling */
+.page-banner {
+  width: 100%;
+  margin: 0;
+  padding: 40px 0;
+  background-color: #a8bcbf;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Improved title styling */
+.page-title {
+  font-size: 3.2em;
+  color: #333;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+}
+
+.page-title:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: #5a7d84;
+}
+
+/* Card styles */
+.card333.general {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card333 {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+/* Description section */
+.desc {
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  background-color: #ebdbce !important;
+  padding: 25px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* About and mission/vision sections */
+.about-section, .mission-vision {
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mission-vision {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.mission, .vision {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Team section */
+.team-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 30px 0;
+  padding: 20px 0;
+  background-color: rgba(168, 188, 191, 0.2);
+}
+
+.team-member {
+  text-align: center;
+  margin: 20px;
+  width: 250px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-member img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #a8bcbf;
+}
+
+.team-member h4 {
+  margin-top: 15px;
+  color: #333;
+}
+
+/* Footer styling */
+.site-footer {
+  width: 100%;
+  margin: 0;
+  padding: 30px 0 0 0;
+  background-color: #333;
+  color: white;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px;
+}
+
+.footer-section a {
+  display: block;
+  color: white;
+  margin: 8px 0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #a8bcbf;
+}
+
+.social-links a {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 1.5em;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 15px 0;
+  border-top: 1px solid #555;
+  margin-top: 20px;
+}
+
+/* 1080p screen optimization */
+@media screen and (min-width: 1920px) {
+  .container-1080p, .principal {
+      max-width: 1920px;
+  }
+  
+  body {
+      font-size: 18px;
+  }
+  
+  .team-member {
+      width: 300px;
+  }
+  
+  .team-member img {
+      width: 220px;
+      height: 220px;
+  }
+}
+
+/* For mobile screens */
+@media screen and (max-width: 768px) {
+  .footer-section {
+      flex: 100%;
+  }
+  
+  .mission-vision {
+      flex-direction: column;
+  }
+  
+  .page-title {
+      font-size: 2em;
+  }
+}

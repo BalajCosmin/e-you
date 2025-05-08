@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>E-You</title>
+  <link rel="stylesheet" href="../css/Main.css" />
+  <link rel="stylesheet" href="../css/Main2.css" />
+  <meta charset="UTF-8" />
+  <meta name="1" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="../javascript/Main.js" defer></script>
+</head>
+
+<body>
+<div class="w3-sidebar w3-center" id="navbar">
+  <a href="Harta.html" class="l w3-button">Hartă</a>
+  <a href="LeaderBoard.html" class="l w3-button ">Clasament</a>
+  <a href="aboutUS.html" class="l w3-button">Despre noi</a>
+  <a href="Main.html" class="w3-center w3-button"><img src="logos/logo4.png"></a>
+  <a href="Login.html" class="icon w3-button">Autentificare</a>
+  <a href="Signup.html" class="icon w3-button">Înregistrează-te</a>
+</div>
+
+<div class="topnav" style="width:100%;">
+  <a class="active w3-center">E-YOU</a>
+  <!-- Linkuri de navigare ascunse implicit -->
+  <div id="myLinks" class="w3-center">
+    <br />
+    <a href="Harta.html" class="l w3-button">Hartă</a>
+    <a href="Blog.html" class="l w3-button">Blog</a>
+    <a href="Campanii.html" class="l w3-button">Campanii</a>
+    <a href="LeaderBoard.html" class="l w3-button">Clasament general</a>
+    <a href="aboutUS.html" class="l w3-button">Despre noi</a>
+    <a href="Login.html" class="l w3-button">Autentificare</a>
+    <a href="Signup.html" class="l w3-button">Înregistrare</a>
+  </div>
+  <!-- "Hamburger menu" / "Bar icon" pentru navigare mobilă -->
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<!-- imagine -->
+<div class="back w3-center">
+  <picture class="w3-center" style="width: 100%;">
+    <source media="(min-width: 701px)" srcset="../21.jpg">
+    <source media="(max-width: 700px)" id="img" srcset="../20.jpg" style="width: 100%;">
+    <img src="../21.jpg" style="width: 100%; height: 780px;">
+  </picture>
+  <hr>
+  <div class="desc w3-panel w3-leftbar w3-center">
+    <p>
+      E-YOU este o platformă interactivă care permite utilizatorilor să semnaleze problemele de mediu observate în zonele în care se află, precum poluarea excesivă, incendii de vegetație sau pericole chimice, semnalând autorităților competente unde să acționeze pentru a îmbunătăți calitatea vieții în comunitățile lor.
+      Astfel, putem contribui cu toții la lupta împotriva problemelor climatice cu care ne confruntăm în prezent.
+      Împreună putem face diferența!
+    </p>
+  </div>
+  <br />
+  <section class="cards-wrapper1 w3-center" style="border-radius: 50%;">
+    <div class="card-grid-space w3-center">
+      <a class="card1 w3-center" href="Harta.html" style="--bg-img: url('../map.jpg')">
+        <div>
+          <h1>Hartă</h1>
+        </div>
+      </a>
+    </div>
+  </section>
+  <br />
+  <h1>Campanii</h1>
+  <section class="cards-wrapper">
+    <div class="card-grid-space">
+      <div class="num">01</div>
+      <a class="card" href="ParcAP.HTML" style="--bg-img: url('../ecologizare.jpg')">
+        <div>
+          <h1>Rezervația Națională Apuseni</h1>
+          <p>În această toamnă, pe 22 septembrie, de la ora 9:00, va avea loc o acțiune de ecologizare la Răchițele, …</p>
+          <div class="date">22 Septembrie 2025</div>
+          <div class="tags">
+            <div class="tag">Răchițele, Județul Cluj</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="card-grid-space">
+      <div class="num">02</div>
+      <a class="card" href="CRR.html" style="--bg-img: url('../r.jpg')">
+        <div>
+          <h1>CRR</h1>
+          <p>CRR este o campanie desfășurată în școli, care are ca scop educarea copiilor despre reutilizare și reciclare, precum și creșterea gradului de conștientizare…</p>
+          <div class="date">12 Decembrie 2025</div>
+          <div class="tags">
+            <div class="tag">România</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="card-grid-space">
+      <div class="num">03</div>
+      <a class="card" href="BU.html" style="--bg-img: url('../w.jpg')">
+        <div>
+          <h1>Bucegi</h1>
+          <p>În această toamnă, pe 4 noiembrie, de la ora 10:00, va avea loc o acțiune de ecologizare în Bucegi, în Rezervația Națională Bucegi…</p>
+          <div class="date">04 Noiembrie 2025</div>
+          <div class="tags">
+            <div class="tag">Bucegi</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+  <h1>Blog</h1>
+  <section class="cards-wrapper">
+    <div class="card-grid-space">
+      <div class="num">01</div>
+      <a class="card" href="LEF.HTML" style="--bg-img:url('../gh.jpg');">
+        <div>
+          <h1 style="color:black">Cum să ai o locuință eficientă energetic?</h1>
+        </div>
+      </a>
+    </div>
+  </section>
+  <br />
+  <hr>
+</div>
+<footer>
+  <div class="d w3-center">
+    <a href="aboutUS.html" class="iconfooter" title="WhatsApp" itemprop="url"><i class="fa fa-whatsapp"></i></a>
+    <a href="aboutUS.html" class="iconfooter" title="Twitter" itemprop="url"><i class="fa fa-twitter"></i></a>
+    <a href="aboutUS.html" class="iconfooter" title="Instagram" itemprop="url"><i class="fa fa-instagram"></i></a>
+    <a href="aboutUS.html" class="iconfooter" title="Facebook" itemprop="url"><i class="fa fa-facebook-f"></i></a>
+    <br />
+  </div>
+</footer>
+</body>
+</html>
