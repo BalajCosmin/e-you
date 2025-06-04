@@ -20,7 +20,8 @@ public class IncidentService {
             // Generate ID for the new incident
             String documentId = dbFirestore.collection(COLLECTION_NAME).document().getId();
 
-            // Create a map for the incident data
+            System.out.println("Generated document ID: " + documentId);
+
             Map<String, Object> data = new HashMap<>();
             data.put("incident_title", incidentDTO.getIncident_title());
             data.put("incident_description", incidentDTO.getIncident_description());
@@ -29,22 +30,52 @@ public class IncidentService {
             data.put("longitude", incidentDTO.getLongitude());
             data.put("marker_type", incidentDTO.getMarker_type());
             data.put("created_at", System.currentTimeMillis());
+            data.put("status", "active");
 
-            // Add empty image URLs array if not provided
             if (incidentDTO.getImageUrls() != null) {
                 data.put("imageUrls", incidentDTO.getImageUrls());
             } else {
                 data.put("imageUrls", new ArrayList<String>());
             }
 
-            // Set data with the generated ID
-            dbFirestore.collection(COLLECTION_NAME).document(documentId).set(data);
+
+            dbFirestore.collection(COLLECTION_NAME).document(documentId).set(data).get();
+
+            System.out.println("Incident saved successfully with ID: " + documentId);
 
             return documentId;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error adding incident: " + e.getMessage();
+
+            throw new RuntimeException("Error adding incident: " + e.getMessage());
         }
+    }
+
+    public List<Map<String, Object>> getMarkersByStatus(String status) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        CollectionReference incidents = dbFirestore.collection(COLLECTION_NAME);
+
+        Query query = incidents.whereEqualTo("status", status);
+        ApiFuture<QuerySnapshot> future = query.get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        List<Map<String, Object>> filteredIncidents = new ArrayList<>();
+
+        for (DocumentSnapshot document : documents) {
+            Map<String, Object> documentData = document.getData();
+            Map<String, Object> incident = new HashMap<>();
+
+            if (documentData != null) {
+                incident.putAll(documentData);
+                incident.put("id", document.getId());
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("incident", incident);
+                filteredIncidents.add(data);
+            }
+        }
+        return filteredIncidents;
     }
 
     public List<Map<String, Object>> getAllMarkers() throws ExecutionException, InterruptedException {
@@ -60,11 +91,9 @@ public class IncidentService {
             Map<String, Object> documentData = document.getData();
             Map<String, Object> incident = new HashMap<>();
 
-            // Copy incident data
             if (documentData != null) {
                 incident.putAll(documentData);
 
-                // Add document ID to the data
                 incident.put("id", document.getId());
 
                 Map<String, Object> data = new HashMap<>();
@@ -85,21 +114,29 @@ public class IncidentService {
 
     public String updateIncidentImages(String incidentId, List<String> imageUrls) throws ExecutionException, InterruptedException {
         if (!existsById(incidentId)) {
-            return "Incident not found";
+            throw new IllegalArgumentException("Incident not found: " + incidentId);
         }
 
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference docRef = dbFirestore.collection(COLLECTION_NAME).document(incidentId);
 
-        // Update only the imageUrls field
+        DocumentSnapshot document = docRef.get().get();
+        List<String> existingImages = (List<String>) document.get("imageUrls");
+        if (existingImages == null) {
+            existingImages = new ArrayList<>();
+        }
+
+        existingImages.addAll(imageUrls);
+
         Map<String, Object> updates = new HashMap<>();
-        updates.put("imageUrls", imageUrls);
+        updates.put("imageUrls", existingImages);
         updates.put("updated_at", System.currentTimeMillis());
 
-        // Update the document
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
+        writeResult.get(); // Wait for completion
 
-        return "Updated incident images: " + writeResult.get().getUpdateTime().toString();
+        System.out.println("Updated incident " + incidentId + " with " + imageUrls.size() + " new images");
+        return "Images updated successfully";
     }
 
     public String solveIncident(List<String> usernames, String incidentId) throws ExecutionException, InterruptedException {

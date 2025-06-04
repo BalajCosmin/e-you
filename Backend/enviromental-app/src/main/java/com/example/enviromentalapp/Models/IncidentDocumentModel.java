@@ -1,4 +1,4 @@
-package com.example.enviromentalapp.models;
+package com.example.enviromentalapp.Models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +10,5 @@ import lombok.Setter;
 public class IncidentDocumentModel {
 
     private String documentId;
-    Incident incident;
+    com.example.enviromentalapp.models.Incident incident;
 }

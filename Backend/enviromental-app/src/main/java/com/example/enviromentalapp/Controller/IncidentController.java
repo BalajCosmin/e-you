@@ -10,6 +10,9 @@ import com.example.enviromentalapp.services.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -30,13 +33,26 @@ public class IncidentController {
     }
 
     @GetMapping("/incidents/get")
-    public IncidentsResponse getAllIncidents() {
+    public ResponseEntity<?> getAllIncidents(@RequestParam(required = false) String status) {
         try {
-            return new IncidentsResponse(String.valueOf(incidentService.getAllMarkers()));
+            List<Map<String, Object>> markers;
+
+            if (status != null && !status.isEmpty()) {
+                markers = incidentService.getMarkersByStatus(status);
+            } else {
+                markers = incidentService.getAllMarkers();
+            }
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", markers);
+            return ResponseEntity.ok(response);
         } catch (ExecutionException | InterruptedException e) {
             Thread.currentThread().interrupt();
             e.printStackTrace();
-            return new IncidentsResponse(ResponseEntity.internalServerError().build().toString());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Failed to fetch incidents");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.internalServerError().body(errorResponse);
         }
     }
 

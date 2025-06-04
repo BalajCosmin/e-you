@@ -1,9 +1,6 @@
 package com.example.enviromentalapp.response;
 
-import com.example.enviromentalapp.models.Incident;
-import com.example.enviromentalapp.models.IncidentDocumentModel;
-import com.example.enviromentalapp.models.dtos.UserDTO;
-import com.example.enviromentalapp.models.dtos.UserDataDTO;
+import com.example.enviromentalapp.Models.IncidentDocumentModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

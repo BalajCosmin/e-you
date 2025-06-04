@@ -184,24 +184,26 @@ function initMap() {
                   return response.json();
                 })
                 .then(result => {
-                  console.log("Incident saved successfully:", result);
+                  console.log("Parsed JSON result:", result);
+                  console.log("Result type:", typeof result);
+                  console.log("Result keys:", Object.keys(result));
 
-                  // Extract incident ID from response
                   let incidentId = "";
-                  if (result && result.message) {
-                    // The server returns the incident ID in the message field
-                    // We need to clean it up if it contains any extra text
-                    const idMatch = result.message.match(/[a-zA-Z0-9-]+/);
-                    incidentId = idMatch ? idMatch[0] : result.message;
-                    console.log("Extracted incident ID:", incidentId);
+
+                  // The response should have a 'response' field based on MessageResponse class
+                  if (result && result.response) {
+                    incidentId = result.response;
+                    console.log("Extracted ID from response field:", incidentId);
                   }
 
-                  if (!incidentId) {
-                    console.warn("No incident ID received from server");
+                  console.log("Final incident ID:", incidentId);
+
+                  if (!incidentId || incidentId === "") {
+                    console.error("Failed to extract incident ID from response");
                     throw new Error("No incident ID received from server");
                   }
 
-                  // If no images, we're done
+                  // Continue with the rest of your code...
                   if (imageFiles.length === 0) {
                     console.log("No images to upload, finishing");
                     alertify.alert('Status', 'Incident adăugat cu succes!');
@@ -216,42 +218,69 @@ function initMap() {
                     return;
                   }
 
-                  // 2. Upload images if there are any
                   console.log("Uploading", imageFiles.length, "images for incident:", incidentId);
                   const imageFormData = new FormData();
 
-                  // Append all image files
                   for (let i = 0; i < imageFiles.length; i++) {
                     imageFormData.append("files", imageFiles[i]);
                   }
 
-                  // Add incident ID reference - make sure it's valid
                   if (incidentId && incidentId !== "") {
                     imageFormData.append("incidentId", incidentId);
                   }
 
-                  // Debug what's in the form data
                   for (let pair of imageFormData.entries()) {
                     console.log(pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1]));
                   }
 
-                  // Upload the images with proper error handling
                   return fetch("http://localhost:8080/images/incidents/pics", {
                     method: "POST",
                     body: imageFormData,
                   })
                       .then(response => {
                         console.log("Image upload response status:", response.status);
+                        console.log("Response headers:", response.headers);
+
                         if (!response.ok) {
-                          throw new Error("Failed to upload images. Status: " + response.status);
+                          return response.text().then(text => {
+                            console.error("Error response text:", text);
+                            throw new Error("Failed to upload images. Status: " + response.status);
+                          });
                         }
-                        return response.json();
+
+                        const contentType = response.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                          return response.json();
+                        } else {
+                          return response.text().then(text => {
+                            console.log("Image upload response text:", text);
+                            return { message: text || "Images uploaded successfully" };
+                          });
+                        }
                       })
                       .then(uploadResult => {
                         console.log("Images uploaded successfully:", uploadResult);
+                        console.log("Upload result type:", typeof uploadResult);
+                        console.log("Upload result keys:", Object.keys(uploadResult));
 
-                        // Success message and cleanup
+                        if (uploadResult.imageUrls) {
+                          console.log("Received image URLs:", uploadResult.imageUrls);
+                        }
+
                         alertify.alert('Status', 'Incident adăugat cu succes!');
+                        infoWindow.close();
+                        currentFormInfoWindow = null;
+                        newIncidentMarker.setMap(null);
+                        updateMarkers();
+
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                      })
+                      .catch(imageError => {
+                        console.error("Error uploading images:", imageError);
+
+                        alertify.alert('Atenție', 'Incidentul a fost creat, dar imaginile nu au putut fi încărcate: ' + imageError.message);
+
                         infoWindow.close();
                         currentFormInfoWindow = null;
                         newIncidentMarker.setMap(null);
@@ -260,17 +289,12 @@ function initMap() {
                         // Reset button state
                         submitBtn.innerHTML = originalBtnText;
                         submitBtn.disabled = false;
-                      })
-                      .catch(imageError => {
-                        console.error("Error uploading images:", imageError);
-                        throw imageError; // Pass to outer catch
                       });
                 })
                 .catch(error => {
                   console.error("Error in form submission:", error);
-                  alertify.alert('Eroare', 'A apărut o eroare la salvarea incidentului: ' + error.message);
+                  alertify.alert('Eroare', 'Nu s-a putut salva incidentul: ' + error.message);
 
-                  // Reset button
                   submitBtn.innerHTML = originalBtnText;
                   submitBtn.disabled = false;
                 });
@@ -285,7 +309,15 @@ function initMap() {
 
 function updateMarkers() {
   console.log("Updating markers...");
-  fetch("http://localhost:8080/incidents/get", {
+
+  const filter = document.getElementById('incidentFilter') ? document.getElementById('incidentFilter').value : 'active';
+  let url = "http://localhost:8080/incidents/get";
+
+  if (filter) {
+    url += `?status=${filter}`;
+  }
+
+  fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -306,7 +338,13 @@ function updateMarkers() {
         console.error("Error fetching markers:", error);
         alertify.alert('Status','Nu s-au putut citi datele, verificați conexiunea la internet');
       });
+}f
+
+function filterIncidents() {
+  updateMarkers();
 }
+
+window.filterIncidents = filterIncidents;
 
 function displayAllMarkers(res) {
   if (markersObjArray.length > 0) {
@@ -344,50 +382,208 @@ function displayAllMarkers(res) {
     markersObjArray.push(m);
 
     m.addListener("click", () => {
+      // Get current logged-in user
+      let currentUser = null;
+      if (sessionStorage.getItem("user_data")) {
+        currentUser = JSON.parse(sessionStorage.getItem("user_data")).data.username;
+      }
+
       // Create content for info window, including images if available
       let imagesHtml = '';
 
       if (incident.imageUrls && incident.imageUrls.length > 0) {
         imagesHtml = '<div style="margin-top:10px;"><b>Imagini:</b><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">';
         incident.imageUrls.forEach(imagePath => {
-          // FIXED: Use the correct endpoint path for images
           const imageUrl = imagePath.startsWith('http')
               ? imagePath
               : `http://localhost:8080/images/${imagePath}`;
 
           imagesHtml += `<img src="${imageUrl}" style="width:80px;height:80px;object-fit:cover;border-radius:4px;cursor:pointer;" 
-                            onclick="window.open('${imageUrl}', '_blank')">`;
+                        onclick="window.open('${imageUrl}', '_blank')">`;
         });
         imagesHtml += '</div></div>';
       }
 
-      // Show additional status information if available
       let statusHtml = '';
       if (incident.status === "solved") {
         statusHtml = `<div style="margin-top:8px;color:#4a8c00;font-weight:bold;">Incident rezolvat ✓</div>`;
+        if (incident.solvers && incident.solvers.length > 0) {
+          statusHtml += `<div style="font-size:14px;color:#666;">Rezolvat de: ${incident.solvers.join(", ")}</div>`;
+        }
+      }
+
+      let solveButtonHtml = '';
+      if (currentUser && currentUser !== incident.username && incident.status !== "solved") {
+        solveButtonHtml = `
+      <div style="margin-top:15px;border-top:1px solid #e0e0e0;padding-top:15px;">
+        <button id="solveIncidentBtn_${incident.id}" 
+                style="background:#4CAF50;color:white;padding:10px 20px;border:none;border-radius:22px;cursor:pointer;font-size:16px;width:100%;">
+          🔧 Rezolvă Incident
+        </button>
+      </div>
+    `;
       }
 
       let infoWindow = new google.maps.InfoWindow({
         content: `
-          <div style="padding:16px 20px; width:320px; background:#f5f9e9; border-radius:12px; border:1.5px solid #bbdb9b; box-shadow:0 3px 12px #8fae6a50;">
-            <h3 style="margin:0 0 8px 0; color:#33791d; font-size:21px; font-family:Inconsolata, monospace; letter-spacing:0.5px;">
-              ${incident.incident_title}
-            </h3>
-            <div style="color:#555; margin:7px 0 4px 0; font-size:15px;">
-              <b>Utilizator:</b> <span style="color:#76b870">${incident.username || ''}</span>
-            </div>
-            <div style="color:#333; font-size:16px;">
-              <b>Descriere: </b><span>${incident.incident_description || ''}</span>
-            </div>
-            ${statusHtml}
-            ${imagesHtml}
-          </div>
-        `
+      <div style="padding:16px 20px; width:320px; background:#f5f9e9; border-radius:12px; border:1.5px solid #bbdb9b; box-shadow:0 3px 12px #8fae6a50;">
+        <h3 style="margin:0 0 8px 0; color:#33791d; font-size:21px; font-family:Inconsolata, monospace; letter-spacing:0.5px;">
+          ${incident.incident_title}
+        </h3>
+        <div style="color:#555; margin:7px 0 4px 0; font-size:15px;">
+          <b>Utilizator:</b> <span style="color:#76b870">${incident.username || ''}</span>
+        </div>
+        <div style="color:#333; font-size:16px;">
+          <b>Descriere: </b><span>${incident.incident_description || ''}</span>
+        </div>
+        ${statusHtml}
+        ${imagesHtml}
+        ${solveButtonHtml}
+      </div>
+    `
       });
+
       infoWindow.open(map, m);
+
+      // Add event listener pentru buton dupa ce InfoWindow are status ready
+      if (solveButtonHtml) {
+        google.maps.event.addListenerOnce(infoWindow, "domready", function() {
+          document.getElementById(`solveIncidentBtn_${incident.id}`).addEventListener("click", function() {
+            showSolveIncidentForm(incident.id, currentUser);
+          });
+        });
+      }
     });
   }
 }
+
+function showSolveIncidentForm(incidentId, currentUser) {
+  if (currentFormInfoWindow) currentFormInfoWindow.close();
+
+  let solveFormContent = `
+    <div style="background-color:#f5f9e9;padding:20px;width:360px;border-radius:12px;border:1.5px solid #bbdb9b;box-shadow:0 3px 12px #8fae6a50;">
+      <h3 style="color:#133b0d;font-size:20px;font-family:Inconsolata, monospace;margin-top:0;">Rezolvă Incident</h3>
+      <p style="color:#666;margin-bottom:15px;">Adaugă participanții care au ajutat la rezolvarea incidentului</p>
+      
+      <div id="participantsList" style="margin-bottom:15px;">
+        <div style="padding:8px;background:#e8f5e8;border-radius:4px;margin-bottom:5px;">
+          <strong>${currentUser}</strong> (tu)
+        </div>
+      </div>
+      
+      <div style="margin-bottom:15px;">
+        <input type="text" id="participantInput" placeholder="Nume utilizator participant" 
+               style="width:70%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+        <button onclick="addParticipant()" 
+                style="background:#88c531;color:white;padding:8px 15px;border:none;border-radius:4px;cursor:pointer;margin-left:5px;">
+          Adaugă
+        </button>
+      </div>
+      
+      <div id="addedParticipants"></div>
+      
+      <button onclick="submitSolveIncident('${incidentId}', '${currentUser}')" 
+              style="background:#4CAF50;color:white;padding:10px 20px;border:none;border-radius:22px;cursor:pointer;font-size:16px;width:100%;margin-top:10px;">
+        Confirmă Rezolvarea
+      </button>
+      
+      <button onclick="alertify.closeAll()" 
+              style="background:#f44336;color:white;padding:8px 15px;border:none;border-radius:22px;cursor:pointer;font-size:14px;width:100%;margin-top:5px;">
+        Anulează
+      </button>
+    </div>
+  `;
+
+  alertify.alert('Rezolvă Incident', solveFormContent).set('onok', function() { return false; });
+
+  window.solveParticipants = [currentUser];
+}
+
+function addParticipant() {
+  const input = document.getElementById('participantInput');
+  const username = input.value.trim();
+
+  if (username && !window.solveParticipants.includes(username)) {
+    window.solveParticipants.push(username);
+
+    const addedDiv = document.getElementById('addedParticipants');
+    const participantDiv = document.createElement('div');
+    participantDiv.style = "padding:8px;background:#f0f0f0;border-radius:4px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;";
+    participantDiv.innerHTML = `
+      ${username}
+      <button onclick="removeParticipant('${username}')" 
+              style="background:#ff5252;color:white;border:none;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:12px;">
+        Elimină
+      </button>
+    `;
+    addedDiv.appendChild(participantDiv);
+
+    input.value = '';
+  }
+}
+
+function removeParticipant(username) {
+  window.solveParticipants = window.solveParticipants.filter(u => u !== username);
+
+  const addedDiv = document.getElementById('addedParticipants');
+  addedDiv.innerHTML = '';
+
+  window.solveParticipants.forEach(participant => {
+    if (participant !== JSON.parse(sessionStorage.getItem("user_data")).data.username) {
+      const participantDiv = document.createElement('div');
+      participantDiv.style = "padding:8px;background:#f0f0f0;border-radius:4px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;";
+      participantDiv.innerHTML = `
+        ${participant}
+        <button onclick="removeParticipant('${participant}')" 
+                style="background:#ff5252;color:white;border:none;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:12px;">
+          Elimină
+        </button>
+      `;
+      addedDiv.appendChild(participantDiv);
+    }
+  });
+}
+
+function submitSolveIncident(incidentId, currentUser) {
+  console.log("Solving incident:", incidentId);
+  console.log("Participants:", window.solveParticipants);
+
+  const solveData = {
+    incidentId: incidentId,
+    usernames: window.solveParticipants
+  };
+
+  fetch("http://localhost:8080/incidents/solve", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(solveData),
+  })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to solve incident");
+        }
+        return response.json();
+      })
+      .then(result => {
+        console.log("Solve incident result:", result);
+
+        alertify.closeAll();
+        alertify.success('Incident marcat ca rezolvat! Felicitări!');
+
+        updateMarkers();
+      })
+      .catch(error => {
+        console.error("Error solving incident:", error);
+        alertify.error('Eroare la rezolvarea incidentului: ' + error.message);
+      });
+}
+
+// functii gloale
+window.addParticipant = addParticipant;
+window.removeParticipant = removeParticipant;
+window.submitSolveIncident = submitSolveIncident;
 
 function myFunction() {
   var x = document.getElementById("myLinks");

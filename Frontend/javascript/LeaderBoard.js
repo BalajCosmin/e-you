@@ -1,61 +1,48 @@
-document.addEventListener("DOMContentLoaded", getLeaderBoardData());
+document.addEventListener("DOMContentLoaded", function() {
+  getLeaderBoardData();
+});
 
 function getLeaderBoardData() {
   fetch("http://localhost:8080/users/ranking?n=5", {
     method: "GET",
-    header: {
-      "Access-Control-Allow-Origin": "*",
+    headers: {
+      "Content-Type": "application/json",
     },
   })
-    .then((response) => response.json()).then()
-    .then((res) => mapUsersToLeaderBoard(res));
+      .then((response) => response.json())
+      .then((res) => mapUsersToLeaderBoard(res))
+      .catch(error => {
+        console.error("Error fetching leaderboard:", error);
+      });
 }
 
 function mapUsersToLeaderBoard(users) {
-  console.log(users.data[0].score);
-  let holder = document.getElementsByClassName("lboard_wrap")[0];
-  let user_name;
-  let user_score;
-
-  for (let i = 0; i < 5; i++) {
-    user_name = users.data[i].username;
-    console.log(user_name)
-    user_score = users.data[i].score;
-    user_profile_picture = users.data[i].photo_path;
-    document.getElementById('rankingButton').addEventListener(
-      "click",
-      (function (user_name, user_score,user_profile_picture) {
-        return function () {
-          let contentStringAllMarkers = [
-            '<div class="lboard_item today" style="display: block">',
-            '<div class="lboard_mem">',
-            '  <div class="img">',
-            " </div>",
-            '<div class="name_bar">',
-            '<p><span>' + (i+1) + '.</span> ' + user_name + '</p>',
-            ' <!-- <div class="bar_wrap">',
-            '<div class="inner_bar" style="width: 95%"></div>',
-            " </div> -->",
-            " </div>",
-            ' <div class="points">' + user_score + " points</div>",
-            " </div>",
-            " </div>",
-          ].join("");
-
-          holder.insertAdjacentHTML( 'beforeend', contentStringAllMarkers );
-          
-
-        return contentStringAllMarkers
-        };
-      })(user_name, user_score,user_profile_picture)
-      
-    );    
-  
+  if (!users || !users.data || users.data.length === 0) {
+    console.log("No user data available");
+    return;
   }
-  document.getElementById('rankingButton').click()
-  
-}
 
-function standby() {
-  document.getElementById('image').src = './default_pfp.jpg';
+  let holder = document.getElementsByClassName("lboard_wrap")[0];
+  holder.innerHTML = "";
+
+  users.data.forEach((user, index) => {
+    let contentStringAllMarkers = `
+      <div class="lboard_item today" style="display: block">
+        <div class="lboard_mem">
+          <div class="img">
+            ${user.photo_path ?
+        `<img src="${user.photo_path}" alt="${user.username}" onerror="this.src='../defaulst_pfp.jpg'">` :
+        `<img src="../default_pfp.jpg" alt="${user.username}">`
+    }
+          </div>
+          <div class="name_bar">
+            <p><span>${index + 1}.</span> ${user.username}</p>
+          </div>
+          <div class="points">${user.score} puncte</div>
+        </div>
+      </div>
+    `;
+
+    holder.insertAdjacentHTML('beforeend', contentStringAllMarkers);
+  });
 }

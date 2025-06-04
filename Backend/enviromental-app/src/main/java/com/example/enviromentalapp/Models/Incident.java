@@ -42,5 +42,15 @@ public class Incident implements Serializable {
     @PropertyName("username")
     private String username;
 
+    @PropertyName("status")
+    private String status;
 
+    @PropertyName("solvers")
+    private List<String> solvers;
+
+    @PropertyName("solved_at")
+    private Long solved_at;
+
+    @PropertyName("created_at")
+    private Long created_at;
 }

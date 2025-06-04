@@ -108,7 +108,7 @@ public class UsersService {
             String documentId = document.getId();
             int score = ((Long) document.getData().get(SCORE_FIELD)).intValue();
             DocumentReference docRef = dbFirestore.collection(USERS_COLLECTION).document(documentId);
-            score += 5;
+            score += 10;
             docRef.update(SCORE_FIELD, score);
         }
     }

@@ -55,6 +55,22 @@
                 <div class="details personal">
                     <span class="title">Detalii personale</span>
                     <div class="fields">
+                        <!-- Add profile picture upload field -->
+                        <div class="input-field" style="grid-column: span 2;">
+                            <label>Fotografie de profil (opțional)</label>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <input type="file" id="fileUpload" accept="image/*" style="display: none;">
+                                <button type="button" onclick="document.getElementById('fileUpload').click()"
+                                        style="background: #88c531; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                                    Alege imagine
+                                </button>
+                                <div id="imagePreview" style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #ddd; display: none;">
+                                    <img id="previewImg" src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <span id="fileName" style="color: #666; font-size: 14px;"></span>
+                            </div>
+                        </div>
+
                         <div class="input-field">
                             <label>Utilizator</label>
                             <input type="text" name="username" placeholder="Introduceți numele de utilizator" required>
@@ -76,10 +92,6 @@
                             <input type="text" id='email' name="email" placeholder="Introduceți adresa de email" required>
                             <span id="message3" style="color:red"></span>
                         </div>
-                        <!-- <div class="input-field">
-                        <label>Număr de telefon</label>
-                        <input type="number" placeholder="Introduceți numărul de telefon" required>
-                        </div> -->
                         <div class="input-field">
                             <label>Gen</label>
                             <select name="gender" required>

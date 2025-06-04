@@ -13,11 +13,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class SolvedIncident implements Serializable {
-    private Incident incident;
+    private com.example.enviromentalapp.models.Incident incident;
     private List<String> solvedPhotos;
     private List<String> solvedByUsernames;
 
-    public SolvedIncident(Incident incident, List<String> solvedBy) {
+    public SolvedIncident(com.example.enviromentalapp.models.Incident incident, List<String> solvedBy) {
         this.incident = incident;
         this.solvedByUsernames = solvedBy;
     }
